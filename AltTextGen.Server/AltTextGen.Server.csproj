@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>AltTextGen.Server</AssemblyName>
+    <RootNamespace>AltTextGen.Server</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="10.3.0" />
+    <PackageReference Include="Umbraco.AI" Version="1.10.0" />
+    <PackageReference Include="Umbraco.AI.MicrosoftFoundry" Version="1.2.0" />
+    <PackageReference Include="Umbraco.Cms" Version="17.3.5" />
+  </ItemGroup>
+</Project>

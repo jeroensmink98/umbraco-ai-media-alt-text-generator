@@ -1,0 +1,27 @@
+{
+  "id": "AltTextGen",
+  "name": "Alt Text Generation",
+  "version": "1.0.0",
+  "allowTelemetry": false,
+  "extensions": [
+    {
+      "type": "workspaceAction",
+      "kind": "default",
+      "alias": "AltTextGen.WorkspaceAction.Media.GenerateAltText",
+      "name": "Generate Alt Text Media Workspace Action",
+      "api": "/App_Plugins/AltTextGen/generate-alt-text.workspace-action.js",
+      "weight": 90,
+      "meta": {
+        "label": "Generate alt text",
+        "look": "secondary",
+        "color": "default"
+      },
+      "conditions": [
+        {
+          "alias": "Umb.Condition.WorkspaceAlias",
+          "match": "Umb.Workspace.Media"
+        }
+      ]
+    }
+  ]
+}

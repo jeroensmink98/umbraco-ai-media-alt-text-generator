@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="AltTextGen.Backoffice/AltTextGen.Backoffice.csproj" />
+  <Project Path="AltTextGen.Server/AltTextGen.Server.csproj" />
+  <Project Path="AltTextGen.Tests/AltTextGen.Tests.csproj" />
+  <Project Path="MySite/MySite.csproj" />
+</Solution>

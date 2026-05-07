@@ -1,34 +1,34 @@
-# MyProject Alt Text Generation
+# MySite Alt Text Generation
 
 This solution contains an Umbraco backoffice extension that can generate and save alt text for Media items.
 
 The extension is split into two projects:
 
-- `MyProject.AltTextGen.Backoffice`: registers the backoffice UI action and contains the JavaScript that runs in the Umbraco backoffice.
-- `MyProject.AltTextGen.Server`: contains the authenticated backoffice API endpoint, configuration, and alt-text generation service.
+- `AltTextGen.Backoffice`: registers the backoffice UI action and contains the JavaScript that runs in the Umbraco backoffice.
+- `AltTextGen.Server`: contains the authenticated backoffice API endpoint, configuration, and alt-text generation service.
 
-`MyProject` references both projects so Umbraco can discover the backoffice manifest and register the server-side services/controllers.
+`MySite` references both projects so Umbraco can discover the backoffice manifest and register the server-side services/controllers.
 
 ## Project Wiring
 
-`MyProject/MyProject.csproj` references both extension projects:
+`MySite/MySite.csproj` references both extension projects:
 
 ```xml
-<ProjectReference Include="..\MyProject.AltTextGen.Backoffice\MyProject.AltTextGen.Backoffice.csproj" />
-<ProjectReference Include="..\MyProject.AltTextGen.Server\MyProject.AltTextGen.Server.csproj" />
+<ProjectReference Include="..\AltTextGen.Backoffice\AltTextGen.Backoffice.csproj" />
+<ProjectReference Include="..\AltTextGen.Server\AltTextGen.Server.csproj" />
 ```
 
-The backoffice project is a Razor Class Library, so its static web assets under `wwwroot/App_Plugins` are exposed to the Umbraco backoffice. Do not also copy those files into `MyProject/wwwroot`, because that creates duplicate static web asset conflicts.
+The backoffice project is a Razor Class Library, so its static web assets under `wwwroot/App_Plugins` are exposed to the Umbraco backoffice. Do not also copy those files into `MySite/wwwroot`, because that creates duplicate static web asset conflicts.
 
 ## Backoffice Extension
 
 The extension manifest is:
 
-`MyProject.AltTextGen.Backoffice/wwwroot/App_Plugins/AltTextGen/umbraco-package.json`
+`AltTextGen.Backoffice/wwwroot/App_Plugins/AltTextGen/umbraco-package.json`
 
 It registers one `workspaceAction`:
 
-- Alias: `MyProject.WorkspaceAction.Media.GenerateAltText`
+- Alias: `AltTextGen.WorkspaceAction.Media.GenerateAltText`
 - Label: `Generate alt text`
 - Workspace condition: `Umb.Condition.WorkspaceAlias` matching `Umb.Workspace.Media`
 
@@ -36,7 +36,7 @@ This means the button appears on the Media item editor workspace, usually inside
 
 The action implementation is:
 
-`MyProject.AltTextGen.Backoffice/wwwroot/App_Plugins/AltTextGen/generate-alt-text.workspace-action.js`
+`AltTextGen.Backoffice/wwwroot/App_Plugins/AltTextGen/generate-alt-text.workspace-action.js`
 
 The JavaScript:
 
@@ -61,7 +61,7 @@ This is intentional. The server can load the media item and its file value from 
 
 The API endpoint lives in:
 
-`MyProject.AltTextGen.Server/Controllers/AltTextGenerationController.cs`
+`AltTextGen.Server/Controllers/AltTextGenerationController.cs`
 
 The controller inherits from `UmbracoAuthorizedController`, so calls must be authenticated with the backoffice bearer token.
 
@@ -91,11 +91,11 @@ The image bytes are loaded server-side from the configured Umbraco media storage
 
 The extension has three generator implementations:
 
-`MyProject.AltTextGen.Server/Services/MockAltTextGenerationService.cs`
+`AltTextGen.Server/Services/MockAltTextGenerationService.cs`
 
 This picks a random alt-text string from an in-memory array. It is useful for testing the full backoffice-to-server flow without calling an external AI provider.
 
-`MyProject.AltTextGen.Server/Services/UmbracoAiAltTextGenerationService.cs`
+`AltTextGen.Server/Services/UmbracoAiAltTextGenerationService.cs`
 
 This uses `Umbraco.AI` and `Microsoft.Extensions.AI` to send a multimodal chat request containing:
 
@@ -105,7 +105,7 @@ This uses `Umbraco.AI` and `Microsoft.Extensions.AI` to send a multimodal chat r
 
 The intended provider is a Microsoft AI Foundry profile backed by a vision-capable chat model such as `gpt-4o` or `gpt-4o-mini`.
 
-`MyProject.AltTextGen.Server/Services/XAiAltTextGenerationService.cs`
+`AltTextGen.Server/Services/XAiAltTextGenerationService.cs`
 
 This uses the OpenAI-compatible .NET chat client through `Microsoft.Extensions.AI.OpenAI`, configured with xAI's OpenAI-compatible base URL. It sends the same multimodal chat request shape as the Umbraco.AI provider:
 
@@ -139,7 +139,7 @@ Use these three numbers to estimate cost:
 
 The service is registered in:
 
-`MyProject.AltTextGen.Server/Composition/AltTextGenerationComposer.cs`
+`AltTextGen.Server/Composition/AltTextGenerationComposer.cs`
 
 ```csharp
 builder.Services.AddTransient<IAltTextGenerationService>(serviceProvider =>
@@ -154,7 +154,7 @@ builder.Services.AddTransient<IAltTextGenerationService>(serviceProvider =>
 
 Configuration is bound from the `AltTextGeneration` section.
 
-Current development config in `MyProject/appsettings.Development.json`:
+Current development config in `MySite/appsettings.Development.json`:
 
 ```json
 "AltTextGeneration": {
@@ -172,7 +172,7 @@ Current development config in `MyProject/appsettings.Development.json`:
 }
 ```
 
-Defaults are defined in `MyProject.AltTextGen.Server/Configuration/AltTextGenerationOptions.cs`:
+Defaults are defined in `AltTextGen.Server/Configuration/AltTextGenerationOptions.cs`:
 
 - `Enabled`: `true`
 - `Provider`: `Mock`
@@ -402,7 +402,7 @@ To confirm the backoffice manifest is discovered, inspect this request in the br
 The response should include:
 
 ```text
-MyProject.WorkspaceAction.Media.GenerateAltText
+AltTextGen.WorkspaceAction.Media.GenerateAltText
 ```
 
 To confirm the JavaScript module is loaded, open the browser console and look for:
