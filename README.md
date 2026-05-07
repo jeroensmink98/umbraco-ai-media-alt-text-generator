@@ -1,4 +1,4 @@
-# MySite Alt Text Generation
+# Umbraco AI Alt Text Generation
 
 This solution contains an Umbraco backoffice extension that can generate and save alt text for Media items.
 
