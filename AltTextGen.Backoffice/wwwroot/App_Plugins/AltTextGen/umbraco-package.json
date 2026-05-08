@@ -20,6 +20,10 @@
         {
           "alias": "Umb.Condition.WorkspaceAlias",
           "match": "Umb.Workspace.Media"
+        },
+        {
+          "alias": "Umb.Condition.WorkspaceEntityIsNew",
+          "match": false
         }
       ]
     }

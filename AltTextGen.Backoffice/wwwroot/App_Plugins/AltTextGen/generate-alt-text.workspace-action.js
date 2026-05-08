@@ -17,15 +17,9 @@ class GenerateAltTextWorkspaceAction extends UmbWorkspaceActionBase {
     console.log("[AltTextGen] GenerateAltTextWorkspaceAction constructed", {
       args,
     });
-    this.disable();
 
     this.consumeContext(UMB_WORKSPACE_CONTEXT, (workspaceContext) => {
       this.#workspaceContext = workspaceContext;
-      this.observe(
-        workspaceContext?.unique,
-        (unique) => (unique ? this.enable() : this.disable()),
-        "altTextGenerationWorkspaceUniqueObserver",
-      );
     });
 
     this.consumeContext(UMB_NOTIFICATION_CONTEXT, (notificationContext) => {
