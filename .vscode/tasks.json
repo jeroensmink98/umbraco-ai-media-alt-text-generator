@@ -11,6 +11,9 @@
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary;ForceNoAlign"
       ],
+      "presentation": {
+        "reveal": "silent"
+      },
       "problemMatcher": "$msCompile"
     },
     {
@@ -35,6 +38,9 @@
         "--project",
         "${workspaceFolder}/MySite/MySite.csproj"
       ],
+      "presentation": {
+        "reveal": "silent"
+      },
       "options": {
         "env": {
           "XAI_API_KEY": ""

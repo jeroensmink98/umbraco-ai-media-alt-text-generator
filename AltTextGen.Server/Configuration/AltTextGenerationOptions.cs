@@ -13,6 +13,7 @@ public sealed class AltTextGenerationOptions
     public string AltTextPropertyAlias { get; set; } = "altText";
 
     public string[] AllowedMediaTypeAliases { get; set; } = ["Image"];
+    public string[] AllowedFileExtensions { get; set; } = ["png", "webp", "jpg", "jpeg"];
 
     public string SystemPrompt { get; set; } =
         "You generate WCAG-aligned alt text for images. Provide a short text alternative that conveys the image's meaning and purpose. Include any essential words that appear in the image when they are important to understanding the content. Avoid 'image of'/'picture of', avoid speculation, and do not add extra commentary. Return only the alt text.";
@@ -31,6 +32,7 @@ public sealed class AltTextGenerationOptions
     /// For longer image descriptions beyond alt text, 80 can feel tight.
     /// </summary>
     public int MaxOutputTokens { get; set; } = 128;
+    public int BatchConcurrency { get; set; } = 5;
 
     public AiEndpointOptions Endpoint { get; set; } = new();
 }

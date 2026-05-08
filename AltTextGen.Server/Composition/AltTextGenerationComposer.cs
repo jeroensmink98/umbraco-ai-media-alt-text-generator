@@ -18,6 +18,13 @@ public sealed class AltTextGenerationComposer : IComposer
                 options => !options.Enabled || !string.IsNullOrWhiteSpace(options.AltTextPropertyAlias),
                 "AltTextGeneration:AltTextPropertyAlias must be configured when alt text generation is enabled.")
             .Validate(
+                options => options.BatchConcurrency > 0,
+                "AltTextGeneration:BatchConcurrency must be greater than zero.")
+            .Validate(
+                options => options.AllowedFileExtensions.Length > 0
+                    && options.AllowedFileExtensions.All(value => !string.IsNullOrWhiteSpace(value)),
+                "AltTextGeneration:AllowedFileExtensions must contain at least one non-empty value.")
+            .Validate(
                 options => options.Endpoint.TimeoutSeconds > 0,
                 "AltTextGeneration:Endpoint:TimeoutSeconds must be greater than zero.")
             .Validate(
@@ -34,6 +41,10 @@ public sealed class AltTextGenerationComposer : IComposer
         builder.Services.AddTransient<MockAltTextGenerationService>();
         builder.Services.AddTransient<UmbracoAiAltTextGenerationService>();
         builder.Services.AddTransient<XAiAltTextGenerationService>();
+        builder.Services.AddTransient<IAltTextMediaGenerationService, AltTextMediaGenerationService>();
+        builder.Services.AddSingleton<AltTextBatchJobStore>();
+        builder.Services.AddSingleton<IAltTextBatchJobQueue, AltTextBatchJobQueue>();
+        builder.Services.AddHostedService<AltTextBatchWorker>();
         builder.Services.AddTransient<IAltTextGenerationService>(serviceProvider =>
         {
             AltTextGenerationOptions options = serviceProvider

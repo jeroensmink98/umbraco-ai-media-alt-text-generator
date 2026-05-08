@@ -22,6 +22,37 @@
           "match": "Umb.Workspace.Media"
         },
         {
+          "alias": "Umb.Condition.WorkspaceContentTypeAlias",
+          "match": "Image"
+        },
+        {
+          "alias": "Umb.Condition.WorkspaceEntityIsNew",
+          "match": false
+        }
+      ]
+    },
+    {
+      "type": "workspaceAction",
+      "kind": "default",
+      "alias": "AltTextGen.WorkspaceAction.Media.GenerateAltTextForFolder",
+      "name": "Generate Alt Text Folder Workspace Action",
+      "api": "/App_Plugins/AltTextGen/generate-alt-text-folder.workspace-action.js",
+      "weight": 91,
+      "meta": {
+        "label": "Generate alt text for images in this folder",
+        "look": "secondary",
+        "color": "default"
+      },
+      "conditions": [
+        {
+          "alias": "Umb.Condition.WorkspaceAlias",
+          "match": "Umb.Workspace.Media"
+        },
+        {
+          "alias": "Umb.Condition.WorkspaceContentTypeAlias",
+          "match": "Folder"
+        },
+        {
           "alias": "Umb.Condition.WorkspaceEntityIsNew",
           "match": false
         }
